@@ -47,15 +47,20 @@ def shutdownLogger():
     """Proper shutdown of logger"""
     logging.shutdown()
 
-def populate_configs():
+def populate_configs(filename):
     """Populating all configs from a config file."""
     #Get config file to read
-    if len(sys.argv) <= 1:
+    if len(sys.argv) <= 1 or filename == None:
         logerror('You need to pass a parameter with a config file !')
         logerror('[EXIT AND ENDS IMPORT]')
         sys.exit(2)
 
-    config_filename = sys.argv[1]
+    config_filename = filename
+    if filename is not None:
+        config_filename = filename
+    else:
+        config_filename = sys.argv[1]
+
     parser = ConfigParser.ConfigParser()
     try:
         loginfo('Config file : [' + config_filename + ']')

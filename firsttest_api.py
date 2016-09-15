@@ -2,6 +2,7 @@
 from trello import TrelloApi, Lists
 from lib.util import populate_configs, initiate_logging, loginfo, shutdownLogger
 
+
 def main():
     """main function"""
 
