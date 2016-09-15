@@ -1,55 +1,26 @@
 #!/usr/bin/python
 from trello import TrelloApi, Lists
 from lib.util import populate_configs, initiate_logging, loginfo, shutdownLogger
-from flask import Flask
+from flask import Flask, render_template
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+Bootstrap(app)
 @app.route('/')
-
-def draw_html():
-
-    the_board = draw_board()
-
-    html = '<html><head>'
-    html += '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">'
-    html += '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >'
-    html += '<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>'
-    html += '</head>'
-    html += '<body>'
-
-    html += '<div class="alert alert-success"><centre>' + the_board.get('name') + '</centre></div>'
-
-    html_lists = ''
-    lists = the_board.get('lists')
-
-    html_lists = ''
-
-    for one_list in lists:
-
-        html_lists += '<div class="panel panel-default">'
-        html_lists += '<div class="panel-heading">' + one_list.get('name') + '</div>'
-        html_lists += '<div class="panel-body">'
-
-        cards = one_list.get('cards')
-
-        html_cards = '<td><div class="list-group">'
-        for one_card in cards:
-            html_cards += '<div href="#" class="list-group-item">' + one_card.get('name') + '</div>'
-        html_cards += '</div></td>'
-
-        html_lists += html_cards + "</div></div>"
+def display_board():
+    #Bootstrap(app)
+    return render_template("board.html", board=populate_board('/home/abjectio/koding/xptre/testconfig.cfg'))
 
 
-    html += html_lists +  '</body></html>'
-    return html
 
-def draw_board():
+def populate_board(configfile):
     # Logging
-    initiate_logging("/tmp/export_board.log")
-    loginfo('[EXPORT BOARD]')
+    #initiate_logging("/tmp/export_board.log")
+    #loginfo('[EXPORT BOARD]')
 
     #  Populate the configs
-    parser_config = populate_configs('/home/abjectio/PhpstormProjects/xptre/testconfig.cfg')
+    parser_config = populate_configs(configfile)
+
     #
     #  Config header name
     section = "config"
@@ -77,4 +48,13 @@ def draw_board():
         one_list['cards'] = cards_in_list
         your_board['lists'].append(one_list)
 
+    your_board['numlists'] = 12/len(lists)
+
     return your_board
+
+@app.route('/about')
+def about():
+    return render_template("about.html", info={'about': {'name':'me' } })
+
+if __name__ == '__main__':
+    app.run(debug=True)

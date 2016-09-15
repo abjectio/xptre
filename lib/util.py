@@ -50,7 +50,7 @@ def shutdownLogger():
 def populate_configs(filename):
     """Populating all configs from a config file."""
     #Get config file to read
-    if len(sys.argv) <= 1 or filename == None:
+    if len(sys.argv) <= 1 and filename == None:
         logerror('You need to pass a parameter with a config file !')
         logerror('[EXIT AND ENDS IMPORT]')
         sys.exit(2)

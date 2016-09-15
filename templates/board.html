@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}This is an example page{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-primary">
+  <div class="panel-heading text-center">{{board.name}}</div>
+</div>
+
+
+<div class="row">
+        {% for list in board.lists %}
+        <div class="col-sm-{{board.numlists}}">
+            <div class="panel panel-success">
+               <div class="panel-heading text-center">{{list.name}}</div>
+            </div>
+              {% for card in list.cards %}
+                 <div class="panel panel-default">
+                   <div class="panel-heading text-center">{{card.name}}</div>
+                 </div>
+              {% endfor %}
+        </div>
+        {% endfor %}
+</div>
+
+
+{% endblock %}
