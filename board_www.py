@@ -11,13 +11,7 @@ def display_board():
     #Bootstrap(app)
     return render_template("board.html", board=populate_board('/home/abjectio/koding/xptre/testconfig.cfg'))
 
-
-
 def populate_board(configfile):
-    # Logging
-    #initiate_logging("/tmp/export_board.log")
-    #loginfo('[EXPORT BOARD]')
-
     #  Populate the configs
     parser_config = populate_configs(configfile)
 
