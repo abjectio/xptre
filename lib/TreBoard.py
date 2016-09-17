@@ -50,10 +50,12 @@ class TreBoard:
         for one_list in self.lists:
             list_id = one_list.get('id')
             tmp_cards = self.trello.lists.get_card(list_id)
-            # for one_card in tmp_cards:
-                #members = self.trello.cards.get_member(one_card.get('id'))
-                #members = []
-                #one_card['members'] = members
+            """
+             for one_card in tmp_cards:
+                members = self.trello.cards.get_member(one_card.get('id'))
+                members = []
+                one_card['members'] = members
+            """
             one_list['cards'] = tmp_cards
 
         self.myboard['lists'] = self.lists

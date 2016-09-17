@@ -32,6 +32,7 @@ Bootstrap(app)
 app.config.from_envvar('XPTRE_SETTINGS')
 myboard = TreBoard(app.config.get('AUTH_KEY'), app.config.get('TOKEN'), app.config.get('BOARD_ID'))  # TreBoard class
 
+
 @app.route('/')
 def display_board():
     myboard.populate_board()
@@ -41,6 +42,7 @@ def display_board():
 @app.route('/about')
 def about():
     return render_template("about.html", info={'about': {'name':'me' } })
+
 
 @app.route('/lists')
 def get_lists():
