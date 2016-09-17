@@ -47,4 +47,4 @@ def get_lists():
     return str(myboard.get_lists())
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
