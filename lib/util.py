@@ -4,7 +4,7 @@
 
 .. module:: util
    :platform: Unix, Windows
-   :synopsis: Library for handling ical
+   :synopsis: Library for handling logging
 .. moduleauthor:: Knut Erik Hollund <knut.erik@unlike.no>
 
 This file is part of xptre python code.

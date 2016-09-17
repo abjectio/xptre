@@ -1,22 +1,35 @@
 {% extends "bootstrap/base.html" %}
-
+{% block html_attribs %} lang="en" charset="utf-8" {% endblock %}
 {% block content %}
+
+<div class="container">
+
 <div class="panel panel-primary">
-  <div class="panel-heading text-center">{{board.name}}</div>
+  <div class="panel-heading text-center"><h4>{{data.name}}</h4></div>
 </div>
 
 <div class="row">
-        {% for list in board.lists %}
-        <div class="col-sm-{{board.numlists}}">
+        {% for list in data.lists %}
+        <div class="col-sm-{{data.numoflists}}">
             <div class="panel panel-success">
-               <div class="panel-heading text-center">{{list.name}}</div>
+               <div class="panel-heading text-center"><strong>{{list.name}}</strong></div>
             </div>
               {% for card in list.cards %}
-                 <div class="panel panel-default">
-                   <div class="panel-heading text-center">{{card.name}}</div>
+                 <div class="panel panel-info">
+                   <div class="panel-heading text-center"><strong>{{card.name}}</strong></div>
+                   <div class="panel-body">{{card.desc}}
+                   {% if card.members %}
+                       <hr>
+                   {% endif %}
+                   {% for member in card.members %}
+                       {{member.fullName}}</br>
+                   {% endfor %}
+                   </div>
                  </div>
               {% endfor %}
         </div>
         {% endfor %}
+</div>
+
 </div>
 {% endblock %}
