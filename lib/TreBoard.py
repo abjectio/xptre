@@ -33,11 +33,13 @@ class TreBoard:
     myboard = None  # Boards
     lists = []
     cards = []
+    members = False
     bootstrap_grid = None
 
-    def __init__(self, auth_key=None, token=None, board_id=None):
+    def __init__(self, auth_key=None, token=None, board_id=None, members=False):
         self.data = []
 
+        self.members = members
         self.trello = TrelloApi(auth_key)
         self.trello.set_token(token)
 
@@ -47,7 +49,7 @@ class TreBoard:
         self.lists = self.trello.boards.get_list(self.myboard.get('id'), None, None, 'open', 'id,name')
 
         for one_list in self.lists:
-            one_list['cards'] = self.trello.lists.get_card(one_list.get('id'), None, None, 'true', None, None, 'open', 'name,desc')
+            one_list['cards'] = self.trello.lists.get_card(one_list.get('id'), None, None, str(self.members).lower(), None, None, 'open', 'name,desc')
 
         self.myboard['lists'] = self.lists
 

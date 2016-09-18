@@ -30,7 +30,7 @@ from lib.TreBoard import TreBoard
 app = Flask(__name__)
 Bootstrap(app)
 app.config.from_envvar('XPTRE_SETTINGS')
-myboard = TreBoard(app.config.get('AUTH_KEY'), app.config.get('TOKEN'), app.config.get('BOARD_ID'))  # TreBoard class
+myboard = TreBoard(app.config.get('AUTH_KEY'), app.config.get('TOKEN'), app.config.get('BOARD_ID'), app.config.get('MEMBERS'))  # TreBoard class
 
 
 @app.route('/')
