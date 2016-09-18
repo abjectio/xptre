@@ -1,39 +1,44 @@
 {% extends "bootstrap/base.html" %}
 {% block html_attribs %} lang="en" charset="utf-8" {% endblock %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/darkly.css')}}">
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/xptre.css')}}">
+{% endblock %}
+
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid xptre-container">
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-center"><h4>{{data.name}}</h4></div>
-</div>
+    <div class="panel panel-primary xptre-board-heading">
+      <div class="panel-heading text-center">{{data.name}}</div>
+    </div>
 
-<div class="row" >
-        {% for list in data.lists %}
-        <div class="col-lg-{{data.numoflists}}" style="padding-right: 2px; padding-left: 2px;">
-            <div class="panel panel-success" style="margin-bottom: 2px; margin-top: 2px;">
-               <div class="panel-heading text-center" ><strong>{{list.name}}</strong></div>
+    <div class="row">
+            {% for list in data.lists %}
+            <div class="col-lg-{{data.numoflists}} xptre-lists">
+                <div class="panel panel-success xptre-panel-headers">
+                   <div class="panel-heading text-center xptre-panel-header-text" >{{list.name}}</div>
+                </div>
+                  {% for card in list.cards %}
+                     <div class="panel panel-info xptre-panel-headers">
+                       <div class="panel-heading text-center">{{card.name}}</div>
+
+                         {% if card.desc %}
+                           <div class="panel-body">{{card.desc}}
+                               {% if card.members %}
+                                   <hr>
+                                   {% for member in card.members %}
+                                       {{member.fullName}}</br>
+                                   {% endfor %}
+                               {% endif %}
+                           </div>
+                         {% endif %}
+
+                     </div>
+                  {% endfor %}
             </div>
-              {% for card in list.cards %}
-                 <div class="panel panel-info" style="margin-bottom: 2px; margin-top: 2px;">
-                   <div class="panel-heading text-center"><strong>{{card.name}}</strong></div>
-
-                     {% if card.desc %}
-                       <div class="panel-body">{{card.desc}}
-                           {% if card.members %}
-                               <hr>
-                               {% for member in card.members %}
-                                   {{member.fullName}}</br>
-                               {% endfor %}
-                           {% endif %}
-                       </div>
-                     {% endif %}
-
-                 </div>
-              {% endfor %}
-        </div>
-        {% endfor %}
-</div>
-
+            {% endfor %}
+    </div>
 </div>
 {% endblock %}

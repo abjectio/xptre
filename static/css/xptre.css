@@ -1,0 +1,24 @@
+
+.xptre-container {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.xptre-board-heading {
+    margin-bottom: 1px;
+}
+
+.xptre-lists {
+    padding-right: 2px;
+    padding-left: 2px;
+}
+
+.xptre-panel-headers {
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+.xptre-panel-header-text {
+    font-weight: bold;
+}
+
