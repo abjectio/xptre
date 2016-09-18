@@ -28,6 +28,7 @@ from trello import TrelloApi
 
 class TreBoard:
     """Trello Board wrapper class"""
+    board_id = None
     trello = None  # TrelloAPI
     myboard = None  # Boards
     lists = []
@@ -41,20 +42,12 @@ class TreBoard:
         self.trello.set_token(token)
 
         self.myboard = self.trello.boards.get(board_id)
-        self.lists = self.trello.boards.get_list(board_id)
 
     def populate_board(self):
+        self.lists = self.trello.boards.get_list(self.myboard.get('id'), None, None, 'open', 'id,name')
 
         for one_list in self.lists:
-            list_id = one_list.get('id')
-            tmp_cards = self.trello.lists.get_card(list_id)
-
-            """ Members still too slow
-            for one_card in tmp_cards:
-                members = self.trello.cards.get_member(one_card.get('id'))
-                one_card['members'] = members
-            """
-            one_list['cards'] = tmp_cards
+            one_list['cards'] = self.trello.lists.get_card(one_list.get('id'), None, None, 'true', None, None, 'open', 'name,desc')
 
         self.myboard['lists'] = self.lists
 
