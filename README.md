@@ -11,3 +11,5 @@ You need some configuration settings in the `example_config.py` file :
 - BOARD_ID - id of the trello board you wish to visualise.
 - MEMBERS - `True` if you wish to show names on members of a card.
 - NO_DESCRIPTION - Array of strings (name on list), which should not show description in cards. E.g. a 'Done' column. Example: `['Done','ToDo / Backlog']`
+
+
