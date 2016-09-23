@@ -5,7 +5,7 @@ Just a hack (Flask App) to explore how I can visualise a private Trello board.
 Dependent on the Python [trello package](https://pypi.python.org/pypi/trello) `$pip install trello`
 
 You need some configuration settings in the `example_config.py` file :
-- HOST XXX.XXX.XXX - IP address
+- HOST XXX.XXX.XXX.XXX - IP address
 - PORT XX - Listening on port
 - THREADED True / False
 
