@@ -18,18 +18,13 @@ along with xptre.  If not, see <http://www.gnu.org/licenses/>.
 from models import TreBoard
 
 
-def init_board(config):
-    return TreBoard(config.get('AUTH_KEY'), config.get('TOKEN'), config.get('BOARD_ID'),
+def init_board(trello=None, config=None):
+    return TreBoard(trello, config.get('BOARD_ID'),
                     config.get('MEMBERS'), config.get('NO_DESCRIPTION'))  # TreBoard class
 
 
-def display_board(config=None):
-    myboard = init_board(config)
+def display_board(trello=None, config=None):
+    myboard = init_board(trello, config)
     myboard.populate_board()
     return myboard.get_data()
 
-
-def get_lists(config=None):
-    myboard = init_board(config)
-    myboard.populate_board()
-    return myboard.get_lists()
