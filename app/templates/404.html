@@ -1,1 +1,22 @@
-<html><body>Nothing here to see ... 404</body></html>
+{% extends "bootstrap/base.html" %}
+{% block html_attribs %} lang="en" charset="utf-8" {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/darkly.css')}}">
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/xptre.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="panel panel-danger">
+      <div class="panel-heading text-center"><h2>Woooopsy - 404</h2></div>
+      <div class="panel-body text-center"><h3>Nothing here ...<p>
+          {% if data.message %}
+            {{data.message}}
+          {% else %}
+            {{data}}
+          {% endif %}
+          </p></h3></div>
+    </div>
+{% endblock %}

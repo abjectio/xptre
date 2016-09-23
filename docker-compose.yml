@@ -1,0 +1,9 @@
+web:
+  build: .
+  ports:
+  - "80:80"
+  expose:
+  - "80"
+  volumes:
+  - .:/xptre
+
