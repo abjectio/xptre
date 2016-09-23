@@ -5,6 +5,11 @@ Just a hack (Flask App) to explore how I can visualise a private Trello board.
 Dependent on the Python [trello package](https://pypi.python.org/pypi/trello) `$pip install trello`
 
 You need some configuration settings in the `example_config.py` file :
+- HOST XXX.XXX.XXX - IP address
+- PORT XX - Listening on port
+- THREADED True / False
+
+JSON - which has info on Trello boards :
 - DEBUG True / False - Debug mode in Flask
 - AUTH_KEY - Trello auth key.
 - TOKEN - Trello token key.
@@ -12,7 +17,7 @@ You need some configuration settings in the `example_config.py` file :
 - MEMBERS - `True` if you wish to show names on members of a card.
 - NO_DESCRIPTION - Array of strings (name on list), which should not show description in cards. E.g. a 'Done' column. Example: `['Done','ToDo / Backlog']`
 
-Example:
+Example on JSON :
 ```
 XPTRE = { 'AUTH_KEY':'your_auth_key_to_trello',
           'TOKEN':'your_token_to_trello',
