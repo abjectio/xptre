@@ -1,7 +1,10 @@
 # Define the application directory
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DEBUG = True/False #Debug mode in Flask
+DEBUG = True/False # Debug mode in Flask
+HOST = '127.0.0.1' # Host - IP
+PORT = 5000 # Listen on port
+THREADED = True/False
 
 # Trello
 XPTRE = { 'AUTH_KEY':'your_auth_key_to_trello',
