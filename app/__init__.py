@@ -37,4 +37,16 @@ def display_board(board_url):
     return not_found( {'message':'URL not found : ' + board_url} )
 
 
+@app.route('/table/<board_url>')
+def display_board_as_table(board_url):
+    tmp_config = {'BOARD_ID': None, 'MEMBERS': None, 'NO_DESCRIPTION': None}
 
+    tmp_boards = xptre_config.get('BOARDS')
+    for one_board in tmp_boards:
+        if board_url == one_board.get('url'):
+            tmp_config['BOARD_ID'] = one_board.get('id')
+            tmp_config['MEMBERS'] = one_board.get('members')
+            tmp_config['NO_DESCRIPTION'] = one_board.get('no_description')
+            return render_template("trello/tblboard.html", data=displayboard_module(trello, tmp_config))
+
+    return not_found( {'message':'URL not found : ' + board_url} )
