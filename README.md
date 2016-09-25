@@ -25,3 +25,8 @@ XPTRE = { 'AUTH_KEY':'your_auth_key_to_trello',
           {'id': 'another_board_id_form_trello','url':'anotherurl', 'members':'True', 'no_description':'another_list_in_second_board'}]
 }
 ```
+
+Not related to Trello, however implemented possibility to view a channel from [Slack](https://www.slack.com)
+A token is needed from Slack in the configuration file. 
+- SLACK = ``` {'TOKEN': 'your_token'} ```
+Access the channel by using url ``` http://yourserver/slack/<channelname> ```

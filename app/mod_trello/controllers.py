@@ -34,5 +34,6 @@ def feed_from_slack_channel(slacker=None, channel_name=None):
 
     slack_feed = SlackFeed(slacker)
     channel_feed = slack_feed.feed_from_channel(channel_name)
+    channel_feed = {'channel_name': channel_name, 'messages': channel_feed}
 
     return channel_feed

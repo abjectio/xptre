@@ -45,4 +45,3 @@ def display_board(board_url):
 @app.route('/slack/<channel_name>')
 def display_board_as_table(channel_name):
     return render_template("slack/channel_feed.html", data=channel_feed(slacker, channel_name))
-
