@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with xptre.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-from trello import TrelloApi
+import datetime
 
 
 class TreBoard:
@@ -52,3 +52,43 @@ class TreBoard:
         self.bootstrap_grid = 12 / len(self.lists)
         self.myboard['numoflists'] = self.bootstrap_grid
         return self.myboard
+
+
+class SlackFeed:
+    """Trello Board wrapper class"""
+
+    def __init__(self, slacker=None):
+
+        self.slacker = slacker
+
+    def feed_from_channel(self, channel_name=None):
+
+        response = self.slacker.channels.list(True)
+        channel_list = response.body['channels']
+
+        i = 0
+        while i < len(channel_list) and (channel_list[i].get('name') != channel_name):
+            i = i+1
+
+
+        channel_id = channel_list[i].get('id')
+        history_response = self.slacker.channels.history(channel_id, '0', '0', 10, False, False)
+        messages = history_response.body['messages']
+        # sort messages - oldest first - ts = timestamp
+        messages = sorted(messages, key=lambda message: message['ts'])
+
+        for tmp_msg in messages:
+
+            if 'user' in tmp_msg:
+                user_resp = self.slacker.users.info(tmp_msg['user'])
+
+                if user_resp is not None:
+                    real_name = user_resp.body['user'].get('real_name')
+                    user_profile = user_resp.body['user'].get('profile')
+                    user_img = user_profile['image_32']
+                    ts = tmp_msg['ts']
+                    tmp_msg['user_name'] = real_name
+                    tmp_msg['user_img'] = user_img
+                    tmp_msg['msg_time'] = datetime.datetime.fromtimestamp(float(ts)).strftime('%c')
+
+        return messages

@@ -22,3 +22,31 @@
     font-weight: bold;
 }
 
+.card-borders {
+    background-color: #2c2c2c;
+}
+
+.tbl-list-name {
+    background-color: #00a379;
+    text-align: center;
+    margin-top: 1px;
+}
+
+.tbl-card-name {
+    margin-top: 5px;
+    text-align: center;
+    background-color: #1c699d;
+}
+
+.tbl-card-description {
+    background-color: #1c1c1c;
+}
+
+.tbl-card-members {
+    background-color: #3d3d3d;
+}
+
+.modified-text {
+    margin-left: 5px;
+    margin-right: 5px;
+}

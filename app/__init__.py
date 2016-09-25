@@ -3,8 +3,10 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 # Import modules
 from app.mod_trello.controllers import display_board as displayboard_module
+from app.mod_trello.controllers import feed_from_slack_channel as channel_feed
 
 from trello import TrelloApi
+from slacker import Slacker
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -15,6 +17,9 @@ app.config.from_object('config')
 xptre_config = app.config.get('XPTRE')
 trello = TrelloApi(xptre_config.get('AUTH_KEY'))
 trello.set_token(xptre_config.get('TOKEN'))
+
+slack_config = app.config.get('SLACK')
+slacker = Slacker(slack_config.get('TOKEN'))
 
 
 @app.errorhandler(404)
@@ -37,4 +42,6 @@ def display_board(board_url):
     return not_found( {'message':'URL not found : ' + board_url} )
 
 
-
+@app.route('/slack/<channel_name>')
+def display_board_as_table(channel_name):
+    return render_template("slack/channel_feed.html", data=channel_feed(slacker, channel_name))

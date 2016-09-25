@@ -1,0 +1,36 @@
+{% extends "bootstrap/base.html" %}
+{% block html_attribs %} lang="en" charset="utf-8" {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/darkly.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+   <div class="row">
+       <div class="col-lg-12">
+            <div class="well-lg" style="background-color: white; color:black; font-size: 23px;">
+                <img src="/static/img/slack_logo.png" width="8%" height="8%">
+                <span style="padding-left: 50px;">#{{data.channel_name}}</span>
+            </div>
+        </div>
+   </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-striped">
+                <tbody>
+                    {% for message in data.messages %}
+                    <tr>
+                        <td><img src='{{message.user_img}}' class="img-circle"></td>
+                        <td style="margin-left: 2px;">{{message.user_name}}</br><div style="font-size: 10px; font-style: italic">{{message.msg_time}}</div></td>
+                        <td style="padding-left: 3px;">{{message.text}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "bootstrap/base.html" %}
+{% block html_attribs %} lang="en" charset="utf-8" {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/darkly.css')}}">
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/xptre.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid xptre-container">
+    <div class="panel panel-primary xptre-board-heading">
+      <div class="panel-heading text-center">{{data.name}}</div>
+    </div>
+
+    <table class="table table-condensed">
+        <tr>
+            {% for list in data.lists %}
+            <td><div class="card-borders">
+                <div class="tbl-list-name"><div class="modified-text">{{list.name}}</div></div>
+                {% for card in list.cards %}
+                    <div class="tbl-card-name"><div class="modified-text">{{card.name}}</div></div>
+                     {% if card.desc %}
+                        <div class="tbl-card-description"><div class="modified-text">{{card.desc}}</div></div>
+                           {% if card.members %}
+                               {% for member in card.members %}
+                                   <div class="tbl-card-members"><div class="modified-text">{{member.fullName}}</div></div>
+                               {% endfor %}
+                           {% endif %}
+                     {% endif %}
+                {% endfor %}
+                </div>
+            </td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

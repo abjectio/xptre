@@ -16,6 +16,7 @@ along with xptre.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 from models import TreBoard
+from models import SlackFeed
 
 
 def init_board(trello=None, config=None):
@@ -28,3 +29,11 @@ def display_board(trello=None, config=None):
     myboard.populate_board()
     return myboard.get_data()
 
+
+def feed_from_slack_channel(slacker=None, channel_name=None):
+
+    slack_feed = SlackFeed(slacker)
+    channel_feed = slack_feed.feed_from_channel(channel_name)
+    channel_feed = {'channel_name': channel_name, 'messages': channel_feed}
+
+    return channel_feed
