@@ -1,0 +1,23 @@
+{% extends "bootstrap/base.html" %}
+{% block html_attribs %} lang="en" charset="utf-8" {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='./css/darkly.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid xptre-container">
+
+    {% for message in data %}
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="well well-sm">{{message.user_name}}</div>
+        </div>
+        <div class="col-lg-10">
+            <div class="well well-sm">{{message.text}}</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
