@@ -116,4 +116,4 @@ class SlackFeed:
 
         message['text'] = emoji.emojize(message['text'])
         if 'subtype' in message and 'file_share' in message['subtype'] and message['file']['thumb_360']:
-            message['text'] = '<img src="' + message['file']['thumb_360'] + '">'
+            message['text'] = '<img src="' + message['file']['thumb_360'] + '"  class="img-thumbnail">'
