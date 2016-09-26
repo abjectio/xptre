@@ -95,6 +95,8 @@ class SlackFeed:
 
                 if user_resp is not None:
                     real_name = user_resp.body['user'].get('real_name')
+                    if len(real_name) <=1:
+                        real_name = user_resp.body['user'].get('name')
                     user_profile = user_resp.body['user'].get('profile')
                     user_img = user_profile['image_32']
                     ts = messages[i]['ts']
