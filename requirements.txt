@@ -2,3 +2,4 @@ Flask<1
 trello<1
 flask-bootstrap
 slacker<1
+emoji<1

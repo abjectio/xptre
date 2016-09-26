@@ -16,6 +16,7 @@ along with xptre.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 import datetime
+import emoji
 
 
 class TreBoard:
@@ -61,6 +62,10 @@ class SlackFeed:
 
         self.slacker = slacker
 
+        #emojies_response = self.slacker.emoji.list()
+        #self.emojies = emojies_response.body['emoji']
+
+
     def feed_from_channel(self, channel_name=None):
 
         response = self.slacker.channels.list(True)
@@ -68,8 +73,7 @@ class SlackFeed:
 
         i = 0
         while i < len(channel_list) and (channel_list[i].get('name') != channel_name):
-            i = i+1
-
+            i += 1
 
         channel_id = channel_list[i].get('id')
         history_response = self.slacker.channels.history(channel_id, '0', '0', 10, False, False)
@@ -77,18 +81,39 @@ class SlackFeed:
         # sort messages - oldest first - ts = timestamp
         messages = sorted(messages, key=lambda message: message['ts'])
 
-        for tmp_msg in messages:
+        i = 0
+        while i < len(messages):
 
-            if 'user' in tmp_msg:
-                user_resp = self.slacker.users.info(tmp_msg['user'])
+            self.replace_text(messages[i])
+            should_view = self.should_view(messages[i])
+            if should_view is False:
+                del messages[i]
+                i -= 1
+
+            if should_view and 'user' in messages[i]:
+                user_resp = self.slacker.users.info(messages[i]['user'])
 
                 if user_resp is not None:
                     real_name = user_resp.body['user'].get('real_name')
                     user_profile = user_resp.body['user'].get('profile')
                     user_img = user_profile['image_32']
-                    ts = tmp_msg['ts']
-                    tmp_msg['user_name'] = real_name
-                    tmp_msg['user_img'] = user_img
-                    tmp_msg['msg_time'] = datetime.datetime.fromtimestamp(float(ts)).strftime('%c')
+                    ts = messages[i]['ts']
+                    messages[i]['user_name'] = real_name
+                    messages[i]['user_img'] = user_img
+                    messages[i]['msg_time'] = datetime.datetime.fromtimestamp(float(ts)).strftime('%c')
 
+            i += 1
         return messages
+
+    def should_view(self, message=None):
+
+        view = True
+        if 'subtype' in message and 'channel_join' in message['subtype']:
+            view = False
+        return view
+
+    def replace_text(self, message=None):
+
+        message['text'] = emoji.emojize(message['text'])
+        if 'subtype' in message and 'file_share' in message['subtype'] and message['file']['thumb_360']:
+            message['text'] = '<img src="' + message['file']['thumb_360'] + '">'
