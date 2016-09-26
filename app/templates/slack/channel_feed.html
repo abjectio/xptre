@@ -10,7 +10,7 @@
 <div class="container-fluid">
    <div class="row">
        <div class="col-sm-12">
-            <div class="well-lg" style="background-color: white; color:black; font-size: 23px;">
+            <div class="well" style="background-color: white; color:black; font-size: 23px;">
                 <img src="/static/img/slack_logo.png" width="8%" height="8%">
                 <span style="padding-left: 50px;">#{{data.channel_name}}</span>
             </div>
@@ -19,13 +19,13 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <table class="table table-striped" style="border-collapse: collapse;">
+            <table class="table table-striped">
                 <tbody>
                     {% for message in data.messages %}
                     <tr>
-                        <td><img src='{{message.user_img}}' class="img-circle"></td>
-                        <td>{{message.user_name}}</br><div style="font-size: 10px; font-style: italic">{{message.msg_time}}</div></td>
-                        <td>{% autoescape on %}{{message.text}}{% endautoescape %}</td>
+                        <td style="width: 1%;"><img src='{{message.user_img}}' class="img-circle"></td>
+                        <td style="width: 8%;">{{message.user_name}}</br><div style="font-size: 10px; font-style: italic">{{message.msg_time}}</div></td>
+                        <td >{% autoescape on %}{{message.text}}{% endautoescape %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
