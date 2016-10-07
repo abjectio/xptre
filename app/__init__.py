@@ -1,6 +1,8 @@
 # Import flask and template operators
-from flask import Flask, render_template
+from flask import Flask, Response, render_template, request
 from flask_bootstrap import Bootstrap
+import requests
+
 # Import modules
 from app.mod_trello.controllers import display_board as displayboard_module
 from app.mod_trello.controllers import feed_from_slack_channel as channel_feed
@@ -27,7 +29,7 @@ def not_found(error):
     return render_template('404.html', data=error), 404
 
 
-@app.route('/<board_url>')
+@app.route('/<board_url>', methods=['GET'])
 def display_board(board_url):
     tmp_config = {'BOARD_ID': None, 'MEMBERS': None, 'NO_DESCRIPTION': None}
 
@@ -39,9 +41,23 @@ def display_board(board_url):
             tmp_config['NO_DESCRIPTION'] = one_board.get('no_description')
             return render_template("trello/board.html", data=displayboard_module(trello, tmp_config))
 
-    return not_found( {'message':'URL not found : ' + board_url} )
+    return not_found({'message': 'URL not found : ' + board_url})
 
 
-@app.route('/slack/<channel_name>')
+@app.route('/slack/<channel_name>', methods=['GET'])
 def display_board_as_table(channel_name):
     return render_template("slack/channel_feed.html", data=channel_feed(slacker, channel_name))
+
+
+@app.route('/slack/image', methods=['GET'])
+def get_slack_images():
+
+    file_name = request.args['file_name']
+    slack_headers = {'Authorization': 'Bearer ' + slack_config.get('TOKEN')}
+    slack_request = requests.get(file_name, headers=slack_headers)
+
+    img_response = Response(slack_request.content)
+    img_response.headers['content-type'] = slack_request.headers['content-type']
+    img_response.headers['content-length'] = slack_request.headers['content-length']
+
+    return img_response
