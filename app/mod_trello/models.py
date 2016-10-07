@@ -61,10 +61,8 @@ class SlackFeed:
     def __init__(self, slacker=None):
 
         self.slacker = slacker
-
-        #emojies_response = self.slacker.emoji.list()
-        #self.emojies = emojies_response.body['emoji']
-
+        emojies_response = self.slacker.emoji.list()
+        self.emojies = emojies_response.body['emoji']
 
     def feed_from_channel(self, channel_name=None):
 
@@ -129,11 +127,22 @@ class SlackFeed:
 
     def replace_text(self, message=None):
 
-        message['text'] = emoji.emojize(message['text'])
+        message['text'] = emoji.emojize(message['text'], use_aliases=True)
         if 'subtype' in message and 'file_share' in message['subtype'] and message['file']['thumb_360']:
             message['text'] = '<img src="./image?file_name=' + message['file']['thumb_360'] + '" class="img-thumbnail">'
 
         if 'subtype' in message and 'me_message' in message['subtype']:
             message['text'] = '<i><strong>(Me)</strong> - ' + message['text'] + '</i>'
 
+        #self.replace_emojies(message)
         self.replace_at_user(message)
+
+
+    def replace_emojies(self, message=None):
+
+        # Find and replace emojies
+        sub_emojies = re.search(':(.*?):', message['text'])
+        if sub_emojies is not None:
+            emojies = sub_emojies.groups()
+            for emoji in emojies:
+                new_emoji = self.emojies[emoji]
