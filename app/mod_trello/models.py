@@ -41,11 +41,16 @@ class TreBoard:
         self.myboard = self.trello.boards.get(board_id)
         self.nodesclists = nodesclists
 
+    def get_background_image(self):
+
+        return self.myboard['prefs']['backgroundImage'] if 'backgroundImage' in self.myboard['prefs'] else None
+
+
     def populate_board(self):
         self.lists = self.trello.boards.get_list(self.myboard.get('id'), None, None, 'open', 'id,name')
 
         for one_list in self.lists:
-            get_fields = 'name' if one_list.get('name') in self.nodesclists else 'name,desc' #name,desc
+            get_fields = 'name' if one_list.get('name') in self.nodesclists else 'name,desc'  # name,desc
             one_list['cards'] = self.trello.lists.get_card(one_list.get('id'), None, None, str(self.members).lower(), None, None, 'open', get_fields)
 
         self.myboard['lists'] = self.lists
@@ -53,6 +58,8 @@ class TreBoard:
     def get_data(self):
         self.bootstrap_grid = 12 / len(self.lists)
         self.myboard['numoflists'] = self.bootstrap_grid
+        self.myboard['background_img_url'] = self.get_background_image()
+
         return self.myboard
 
 

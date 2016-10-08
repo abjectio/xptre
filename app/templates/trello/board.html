@@ -5,6 +5,13 @@
 {{super()}}
 <link rel="stylesheet" href="{{url_for('.static', filename='./css/darkly.css')}}">
 <link rel="stylesheet" href="{{url_for('.static', filename='./css/xptre.css')}}">
+
+<style>
+body {
+    background-size: cover;
+    background-image: url('{{data.background_img_url}}');
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -16,7 +23,7 @@
 
     <div class="row">
             {% for list in data.lists %}
-            <div class="col-lg-{{data.numoflists}} xptre-lists">
+            <div class="col-md-{{data.numoflists}} xptre-lists">
                 <div class="panel panel-success xptre-panel-headers">
                    <div class="panel-heading text-center xptre-panel-header-text" >{{list.name}}</div>
                 </div>
@@ -25,7 +32,7 @@
                        <div class="panel-heading text-center">{{card.name}}</div>
 
                          {% if card.desc %}
-                           <div class="panel-body">{{card.desc}}
+                           <div class="panel-body">{% autoescape on %}{{card.desc}}{% endautoescape %}
                                {% if card.members %}
                                    <hr>
                                    {% for member in card.members %}
