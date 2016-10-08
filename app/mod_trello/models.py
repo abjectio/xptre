@@ -16,8 +16,9 @@ along with xptre.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 import datetime
-import emoji
+import emojipy
 import re
+
 
 class TreBoard:
     """Trello Board wrapper class"""
@@ -62,7 +63,8 @@ class SlackFeed:
 
         self.slacker = slacker
         emojies_response = self.slacker.emoji.list()
-        self.emojies = emojies_response.body['emoji']
+        self.slackemojies = emojies_response.body['emoji']
+        self.emojione = emojipy.Emoji()
 
     def feed_from_channel(self, channel_name=None):
 
@@ -115,34 +117,29 @@ class SlackFeed:
     def replace_at_user(self, message=None):
 
         # Find and replace userid with first name
-        sub_users = re.search('<@(.*?)>', message['text'])
+        users = re.findall('<@(.*?)>', message['text'])
 
-        if sub_users is not None:
-            groups_user = sub_users.groups()
-            for user in groups_user:
-                slack_user_info_resp = self.slacker.users.info(user)
-                user_name = '<span style="background:lightYellow; color:black; font-type: strong;">&nbsp;' + \
-                            slack_user_info_resp.body['user']['profile']['first_name'] + '&nbsp;</span>'
-                message['text'] = re.sub(r'<@' + user + '>', user_name, message['text'])
+        for user in users:
+            slack_user_info_resp = self.slacker.users.info(user)
+            user_name = '<span style="background:lightYellow; color:black; font-type: strong;">&nbsp;' + \
+                        slack_user_info_resp.body['user']['profile']['first_name'] + '&nbsp;</span>'
+            message['text'] = re.sub(r'<@' + user + '>', user_name, message['text'])
 
     def replace_text(self, message=None):
 
-        message['text'] = emoji.emojize(message['text'], use_aliases=True)
         if 'subtype' in message and 'file_share' in message['subtype'] and message['file']['thumb_360']:
             message['text'] = '<img src="./image?file_name=' + message['file']['thumb_360'] + '" class="img-thumbnail">'
 
         if 'subtype' in message and 'me_message' in message['subtype']:
             message['text'] = '<i><strong>(Me)</strong> - ' + message['text'] + '</i>'
 
-        #self.replace_emojies(message)
+        self.replace_emojies(message)
         self.replace_at_user(message)
-
 
     def replace_emojies(self, message=None):
 
         # Find and replace emojies
-        sub_emojies = re.search(':(.*?):', message['text'])
-        if sub_emojies is not None:
-            emojies = sub_emojies.groups()
-            for emoji in emojies:
-                new_emoji = self.emojies[emoji]
+        emojies = re.findall(':(.*?):', message['text'])
+        for emoji in emojies:
+            new_emoji = self.emojione.shortcode_to_image(':' + emoji + ':', style='height: 32px; width: 32px;')
+            message['text'] = re.sub(r':' + emoji + ':', new_emoji, message['text'])
