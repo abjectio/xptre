@@ -1,5 +1,5 @@
 Flask<1
-trello<1
+trello
 flask-bootstrap
-slacker<1
-emoji<1
+slacker
+emojipy
