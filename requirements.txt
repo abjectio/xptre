@@ -3,3 +3,4 @@ trello
 flask-bootstrap
 slacker
 emojipy
+six
