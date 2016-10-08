@@ -141,5 +141,13 @@ class SlackFeed:
         # Find and replace emojies
         emojies = re.findall(':(.*?):', message['text'])
         for emoji in emojies:
+            # Get the emoji short_cut code (EmojiOne)
             new_emoji = self.emojione.shortcode_to_image(':' + emoji + ':', style='height: 32px; width: 32px;')
+
+            # If it was not found in EmojiOne - Try Slack custom emojies
+            if (new_emoji == ':' + emoji + ':') and (emoji in self.slackemojies):
+                new_emoji = self.slackemojies[emoji]
+                new_emoji = '<img style="height: 32px; width: 32px;" class="emojione" src="' + new_emoji + '"/>'
+
+            # Replace with new emoji
             message['text'] = re.sub(r':' + emoji + ':', new_emoji, message['text'])
