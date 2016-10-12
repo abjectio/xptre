@@ -136,6 +136,8 @@ class SlackFeed:
 
         if 'subtype' in message and 'file_share' in message['subtype'] and message['file']['thumb_360']:
             message['text'] = '<img src="./image?file_name=' + message['file']['thumb_360'] + '" class="img-thumbnail">'
+            if 'initial_comment' in message['file']:
+                message['text'] = message['file']['initial_comment']['comment'] + '</br>' + message['text']
 
         if 'subtype' in message and 'me_message' in message['subtype']:
             message['text'] = '<i><strong>(Me)</strong> - ' + message['text'] + '</i>'

@@ -9,16 +9,12 @@
 {% block content %}
 <div class="container-fluid">
    <div class="row">
-       <div class="col-sm-12">
-            <div class="well" style="background-color: white; color:black; font-size: 23px;">
-                <img src="/static/img/slack_logo.png" width="8%" height="8%">
-                <span style="padding-left: 50px;">#{{data.channel_name}}</span>
-            </div>
-        </div>
+       <div class="col-md-1 vcenter"><img class="img-responsive" src="/static/img/slack_monochrome_white.png"></div>
+       <div class="col-md-11 vcenter"><h3>#{{data.channel_name}}</h3></div>
    </div>
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <table class="table table-striped">
                 <tbody>
                     {% for message in data.messages %}
