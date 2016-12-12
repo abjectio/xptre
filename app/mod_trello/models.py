@@ -56,7 +56,7 @@ class TreBoard:
         self.myboard['lists'] = self.lists
 
     def get_data(self):
-        self.bootstrap_grid = 12 / len(self.lists)
+        self.bootstrap_grid = int(round(float(12.0 / len(self.lists))))
         self.myboard['numoflists'] = self.bootstrap_grid
         self.myboard['background_img_url'] = self.get_background_image()
 
