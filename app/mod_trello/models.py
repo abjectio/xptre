@@ -123,14 +123,14 @@ class SlackFeed:
 
     def replace_at_user(self, message=None):
 
-        # Find and replace userid with first name
-        users = re.findall('<@(.*?)>', message['text'])
+        # Find and replace userid with first name. Text could be either <@USERID> or <@USERID|nick>
+        users = re.findall('<@(.*?)(?:>|\|.*?>)', message['text'])
 
         for user in users:
             slack_user_info_resp = self.slacker.users.info(user)
             user_name = '<span style="background:lightYellow; color:black; font-type: strong;">&nbsp;' + \
                         slack_user_info_resp.body['user']['profile']['first_name'] + '&nbsp;</span>'
-            message['text'] = re.sub(r'<@' + user + '>', user_name, message['text'])
+            message['text'] = re.sub(r'<@' + user + '(>|\|.*?>)', user_name, message['text'])
 
     def replace_text(self, message=None):
 
@@ -141,6 +141,9 @@ class SlackFeed:
 
         if 'subtype' in message and 'me_message' in message['subtype']:
             message['text'] = '<i><strong>(Me)</strong> - ' + message['text'] + '</i>'
+
+        # Replace newline with breaks
+        message['text'] = re.sub(r'(\n)', '</br>', message['text'])
 
         self.replace_emojies(message)
         self.replace_at_user(message)
