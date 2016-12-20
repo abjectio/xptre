@@ -21,7 +21,7 @@ from models import SlackFeed
 
 def init_board(trello=None, config=None):
     return TreBoard(trello, config.get('BOARD_ID'),
-                    config.get('MEMBERS'), config.get('NO_DESCRIPTION'))  # TreBoard class
+                    config.get('MEMBERS'), config.get('NO_DESCRIPTION'),config.get('HIDE'))  # TreBoard class
 
 
 def display_board(trello=None, config=None):

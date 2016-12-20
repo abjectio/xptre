@@ -31,23 +31,34 @@ class TreBoard:
     members = False
     bootstrap_grid = None
 
-    def __init__(self, trello, board_id=None, members=False, nodesclists=None):
+    def __init__(self, trello, board_id=None, members=False, nodesclists=None, hidelist=None):
         self.data = []
 
         self.trello = trello
         self.nodesclists = nodesclists
+        self.hidelist = hidelist
         self.members = members
 
         self.myboard = self.trello.boards.get(board_id)
-        self.nodesclists = nodesclists
 
     def get_background_image(self):
 
         return self.myboard['prefs']['backgroundImage'] if 'backgroundImage' in self.myboard['prefs'] else None
 
-
     def populate_board(self):
         self.lists = self.trello.boards.get_list(self.myboard.get('id'), None, None, 'open', 'id,name')
+
+        #Hrmfff - not satisfied with this hack ...
+        #Create a new list where hidden columns does not exists
+        if self.hidelist is not None:
+            tmplist = [int(n) for n in self.hidelist.split(',')]
+            tmpcolumns = []
+            counter = 0
+            while counter < len(self.lists):
+                if counter not in tmplist:
+                    tmpcolumns.append(self.lists[counter])
+                counter = counter + 1
+            self.lists = tmpcolumns
 
         for one_list in self.lists:
             get_fields = 'name' if one_list.get('name') in self.nodesclists else 'name,desc'  # name,desc
@@ -102,7 +113,7 @@ class SlackFeed:
 
                 if user_resp is not None:
                     real_name = user_resp.body['user'].get('real_name')
-                    if len(real_name) <=1:
+                    if len(real_name) <= 1:
                         real_name = user_resp.body['user'].get('name')
                     user_profile = user_resp.body['user'].get('profile')
                     user_img = user_profile['image_32']
