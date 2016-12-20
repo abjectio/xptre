@@ -39,6 +39,7 @@ def display_board(board_url):
             tmp_config['BOARD_ID'] = one_board.get('id')
             tmp_config['MEMBERS'] = one_board.get('members')
             tmp_config['NO_DESCRIPTION'] = one_board.get('no_description')
+            tmp_config['HIDE'] = request.args.get('hide')
             return render_template("trello/board.html", data=displayboard_module(trello, tmp_config))
 
     return not_found({'message': 'URL not found : ' + board_url})
