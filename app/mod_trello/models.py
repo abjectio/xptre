@@ -75,10 +75,11 @@ class TreBoard:
 
 
 class SlackFeed:
-    """Trello Board wrapper class"""
+    """Slack wrapper class"""
 
-    def __init__(self, slacker=None):
+    def __init__(self, slacker=None, numberofrows=None):
 
+        self.numberofrows = 8 if (numberofrows is None) or (int(numberofrows)>20) else numberofrows
         self.slacker = slacker
         emojies_response = self.slacker.emoji.list()
         self.slackemojies = emojies_response.body['emoji']
@@ -94,7 +95,7 @@ class SlackFeed:
             i += 1
 
         channel_id = channel_list[i].get('id')
-        history_response = self.slacker.channels.history(channel_id, '0', '0', 8, False, False)
+        history_response = self.slacker.channels.history(channel_id, '0', '0', self.numberofrows, False, False)
         messages = history_response.body['messages']
         # sort messages - oldest first - ts = timestamp
         messages = sorted(messages, key=lambda message: message['ts'])
