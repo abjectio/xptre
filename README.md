@@ -10,6 +10,7 @@ You need some configuration settings in the `example_config.py` file :
 - PORT XX - Listening on port
 - THREADED True / False
 
+## Trello
 JSON - which has info on Trello boards :
 - DEBUG True / False - Debug mode in Flask
 - AUTH_KEY - Trello auth key.
@@ -27,7 +28,16 @@ XPTRE = { 'AUTH_KEY':'your_auth_key_to_trello',
 }
 ```
 
+It is possible to hide lists in your Trello board by using parameter ``` hide ```.
+Example: ``` http://localhost/myboard?hide=1,3,4 ``` , which will hide list number 1, 3 and 4.
+
+## Slack
 Not related to Trello, however implemented possibility to view a channel from [Slack](https://www.slack.com)
 A token is needed from Slack in the configuration file. 
 - SLACK = ``` {'TOKEN': 'your_token'} ```
 Access the channel by using url ``` http://yourserver/slack/<channelname> ```
+
+Default return is the last 8 rows from feed. It is possible to use parameter ``` rows ``` to specify 
+number of rows returned. (Max 20 rows)
+
+Example: ``` http://localhost/slack/mychannel?rows=10 ```

@@ -30,9 +30,9 @@ def display_board(trello=None, config=None):
     return myboard.get_data()
 
 
-def feed_from_slack_channel(slacker=None, channel_name=None):
+def feed_from_slack_channel(slacker=None, channel_name=None, numberofrows=None):
 
-    slack_feed = SlackFeed(slacker)
+    slack_feed = SlackFeed(slacker, numberofrows)
     channel_feed = slack_feed.feed_from_channel(channel_name)
     channel_feed = {'channel_name': channel_name, 'messages': channel_feed}
 

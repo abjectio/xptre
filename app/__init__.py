@@ -46,8 +46,9 @@ def display_board(board_url):
 
 
 @app.route('/slack/<channel_name>', methods=['GET'])
-def display_board_as_table(channel_name):
-    return render_template("slack/channel_feed.html", data=channel_feed(slacker, channel_name))
+def display_slack_channel(channel_name):
+    numberofrows = request.args.get('rows')
+    return render_template("slack/channel_feed.html", data=channel_feed(slacker, channel_name, numberofrows))
 
 
 @app.route('/slack/image', methods=['GET'])
