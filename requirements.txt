@@ -1,7 +1,7 @@
 xptre
-Flask<1
-trello<1
-flask-bootstrap<1
-slacker<1
-emojipy<1
-six<1
+Flask>=1
+trello
+flask-bootstrap
+slacker
+emojipy
+six
